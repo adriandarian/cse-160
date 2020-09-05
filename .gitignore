@@ -1,3 +1,5 @@
+##  C gitignore
+
 # Prerequisites
 *.d
 
@@ -50,3 +52,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+## LaTeX gitignore
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
