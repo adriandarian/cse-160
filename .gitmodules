@@ -1,3 +1,6 @@
 [submodule "Projects/Project - Test Topologies/CSE160-Project-Skeleton-Code"]
 	path = Projects/Project - Test Topologies/CSE160-Project-Skeleton-Code
 	url = https://github.com/UCMAndesLab/CSE160-Project-Skeleton-Code
+[submodule "Projects/Project-1"]
+	path = Projects/Project-1
+	url = https://github.com/adriandarian/cse-160-project.git
