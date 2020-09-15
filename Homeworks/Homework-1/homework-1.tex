@@ -1,0 +1,110 @@
+\documentclass[a4paper]{article}
+
+  \usepackage{fullpage} % Package to use full page
+  \usepackage{parskip} % Package to tweak paragraph skipping
+  \usepackage{tikz} % Package for drawing
+  \usepackage{amsmath}
+  \usepackage{siunitx} % Package for scientific units
+  \usepackage{amsfonts}
+  \usepackage{amssymb}
+  \usepackage{hyperref}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english]{babel}
+  \usepackage{multicol}
+  \usepackage{graphicx} % Package for including images
+  \graphicspath{ {./images/} }
+  
+  \DeclareUnicodeCharacter{2212}{-}
+  \newcommand\tab[1][0.5cm]{\hspace*{#1}}
+  
+  \title{Homework 1}
+  \author{Adrian Darian}
+  \date{9/15/2020}
+  
+  \begin{document}
+  
+\maketitle
+  
+\section*{Chapter 1}
+\begin{itemize}
+	\item[3] Calculate the total time required to transfer a $1000 Kb$ file in the following cases, assuming an RTT of $50 byte$, a packet size of $1 KB$ data, and an initial $2 \times RTT$ of "handshaking" before data is sent:
+	      \begin{itemize}
+	      	\item[(a)] The bandwidth is $1.5Mbps$, and data packets can be sent continuously. \\
+	      	      \textbf{Answer:} $100ms + 1000 Kb / 1.5 KBps = 0.125 + 8 Mbit / 15 Mbps = 0.125 + 5.333 sec = 5.458 sec$. A mega is $10^6 vs. 2^20$, we get $8,192,000 bits / 1,500,000 bps = 5.461 sec = 5.586 sec$ \\
+	      	\item[(b)] The bandwidth is $1.5 Mbps$, but after we finish sending each data packet we must wait one RTT before sending the next. \\
+	      	      \textbf{Answer:} 999 RTTs, for a total of $5.586 + 49.95 = 55.536$. \\
+	      	\item[(c)] The bandwidth is "infinite," meaning that we take transmit time to be zero, and up to 20 packets can be sent per RTT. \\
+	      	      \textbf{Answer:} This is $49.5 RTTs$, plus the initial 2, for $2.575 seconds$ \\
+	      	\item[(d)] The bandwidth is infinite, and during the first RTT we cansend one packet (21-1), during the second RTT we can send two packets (22-1), during the third we can send four (23-1),and so on. (A justification for such an exponential increase will be given in Chapter 6.) \\
+	      	      \textbf{Answer:} $1 + 2 + 4 + ... + 2^n = 2^{n+1} - 1 packets$. At $n = 9$ we have thus been able to send all $1,000 packets$; the last batch arrives $0.5 RTT$ later. Total time is $2 + 9.5 RTTs$, or $.575 sec$ \\
+	      \end{itemize} 
+	\item[5] Consider a point-to-point link $4 km$ in length. At what bandwidth would propagation delay (at a speed of $2 \times 10^8m/s$) equal transmit delay for $100 byte$ packets? What about $512 byte$ packets? \\
+	      \textbf{Answer:} $4 \times 10^3 m / 2 \times 10^8 m/s = 2x10^{-5} sec = 20 \mu  s$. $100 bytes / 20 \mu  s$ is $5 bytes/\mu s$. For $512 byte = 204.8 Mbps$ 
+	\item[11] How "wide" is a bit on a $10-Gbps$ link? How long is a bit in copperwire, where the speed of propagation is $2.3x10^8m/s$? \\
+	      \textbf{Answer:} width is $10^{-10} sec (0.1 ns)$. length is $.1 ns x 2.3 x 10^8 m/sec = 0.023 m or 23mm$ 
+	\item[13] Suppose a $1-Gbps$ point-to-point link is being set up between theEarth and a new lunar colony. The distance from the moon to theEarth is approximately $385,000 km$, and data travels over the linkat the speed of light—$3x10^8m/s$.
+	      \begin{itemize}
+	      	\item[(a)] Calculate the minimum RTT for the link. \\
+	      	      \textbf{Answer:} $2 \times 385, 000, 000 m / 3 \times 10^8 m/s = 2.57 seconds$ \\
+	      	\item[(b)] Using the RTT as the delay, calculate the $delay * bandwidth$ product for the link. \\
+	      	      \textbf{Answer:}  $2.57 byte \times 1 Gbps = 2.57 Gb = 321 Mb$ 
+	      	\item[(c)] What is the significance of the $delay * bandwidth$ product computed in (b)? \\
+	      	      \textbf{Answer:} amount of data that can be sent prior to response 
+	      	\item[(d)] A camera on the lunar base takes pictures of the Earth andsaves them in digital format to disk. Suppose Mission Controlon Earth wishes to download the most current image, which is $25 MB$. What is the minimum amount of time that willelapse between when the request for the data goes out andthe transfer is finished? \\
+	      	      \textbf{Answer:} $200 Mb / 1000 Mbps = 0.2 seconds$. total time of $0.2 + 2.57 = 2.77 sec$
+	      \end{itemize} 
+	\item[18] Calculate the effective bandwidth for the following cases. For (a) and (b) assume there is a steady supply of data to send; for(c) simply calculate the average over $12 hours$.
+	      \begin{itemize}
+	      	\item[(a)] $100-Mbps$ Ethernet through three store-and-forward switches as in Exercise 16(b). Switches can send on one link while receiving on the other. \\
+	      	      \textbf{Answer:} The effective bandwidth is $100 Mbps$; the sender can send data steadily at this rate and the switches simply stream it along the pipeline. We are assuming here that no ACKs are sent, and that the switches can keep up and can buffer at least one packet 
+	      	\item[(b)] Same as (a) but with the sender having to wait for a 50-byteacknowledgment packet after sending each 12,000-bit datapacket. \\
+	      	      \textbf{Answer:} The data packet takes $520 \mu s$; the $400 bit$ ACKs take $4 \mu s$/link to be sent back, plus propagation, for a total of $4 \times 4 \mu s + 4 \times 10 \mu s = 56 \mu s$; thus the total RTT is $576 \mu s$. $12000 bits$ in $576\mu s$ is about $20.8 Mbps$. 
+	      	\item[(c)] Overnight ($12 hour$) shipment of $100 DVDs$ that hold $4.7 GB$ each \\
+	      	      \textbf{Answer:} $100 \times 4.7 \times 10^9 bytes / 12 hours = 4.7 \times 10^11 bytes/(12 \times 3600 s) = 10.9 MBps = 87 Mbps$ 
+	      \end{itemize} 
+	\item[19] Calculate the $delay * bandwidth$ product for the following links. Use one-way delay, measured from first bit sent to first bit received
+	      \begin{itemize}
+	      	\item[(a)] $100-Mbps$ Ethernet with a delay of $10\mu s$. \\
+	      	      \textbf{Answer:} $100 \times 10^6bps \times 10 \times 10^{-6} sec = 1000 bits = 125 bytes$ 
+	      	\item[(b)] $100-Mbps$ Ethernet with a single store-and-forward switchlike that of Exercise 16(b), packet size of $12,000 bits$, and $10\mu s$ per link propagation delay. \\
+	      	      \textbf{Answer:} $100 \times 10^6bps \times 520 \times 10^{-6} sec = 52000 bits = 650 bytes$. 
+	      	\item[(c)] $1.5 Mbps$ T1 link, with a transcontinental one-way delay of $50ms$. \\
+	      	      \textbf{Answer:} $1.5 \times 10^6 bps \times 50 \times 10^{-3} sec = 75,000 bits = 9375 bytes$ 
+	      	\item[(d)] $1.5 Mbps$ T1 link between two ground stations communicating via a satellite in geosynchronous orbit, $35,900 km$ high. The only delay is speed-of-light propagation delay from Earth to the satellite and back. \\
+	      	      \textbf{Answer:} $2 \times 35,900,000 meters$. With a propagation speed of $c = 3 \times 10^8 meters/sec$, the one-way propagation delay is thus $2 \times 35,900,000/c = 0.24 sec$. Bandwidth x delay is thus $1.5 \times 10^6 bps \times 0.24 sec = 360,000 bits = 45 KBytes$ 
+	      \end{itemize}
+\end{itemize}
+
+\section*{Chapter 2}
+\begin{itemize}
+	\item[2] Show the $4B/5B$ encoding, and the resulting NRZI signal, for the following bit sequence: $1110 0101 0000 0011$
+	\item[4] In the $4B/5B$ encoding (Table 2.2), only two of the $5 bit$ codesused end in two 0s. How many possible $5 bit$ sequences are there (used by the existing code or not) that meet the stronger restriction of having at most one leading and at most one trailing 0? Could all $4 bit$ sequences be mapped to such $5 bit$ sequences? \\
+	      \textbf{Answer:} One can list all $5 bit$ sequences and count, but here is another approach: there are $2^3$ sequences that start with $00$, and $2^3$ that end with $00$. There are two sequences, $00000$ and $00100$, that do both. Thus, the number that do either is $8 + 8 - 2 = 14$, and finally the number that do neither is $32 - 14 = 18$. Thus there would have been enough $5 bit$ codes meeting the stronger requirement; however, additional codes are needed for control sequences 
+	\item[11] Show that two-dimensional parity allows detection of all $3 bit$ errors \\
+	      \textbf{Answer:} Suppose an undetectable three-bit error occurs. The three bad bits must be spread among one, two, or three rows. If these bits occupy two or three rows, then some row must have exactly one bad bit, which would be detected by the parity bit for that row. But if the three bits are all in one row, then that row must again have a parity error (as must each of the three columns containing the bad bits) 
+	\item[12] Give an example of a $4 bit$ error that would not be detected by two-dimensional parity, as illustrated in Figure 2.14. What is thegeneral set of circumstances under which $4 bit$ errors will be undetected? \\
+	      \textbf{Answer:} If we flip the bits corresponding to the corners of a rectangle in the $2-D$ layout of the data, then all parity bits will still be correct. Furthermore, if four bits change and no error is detected, then the bad bits must form a rectangle: in order for the error to go undetected, each row and column must have no errors or exactly two errors 
+	\item[18] Suppose we want to transmit the message $1110 0011$ and protect it from errors using the CRC polynomial $x^3+ 1$.
+	      \begin{itemize}
+	      	\item[(a)] Use polynomial long division to determine the message that should be transmitted. \\
+	      	      \textbf{Answer:} If we flip the bits corresponding to the corners of a rectangle in the $2-D$ layout of the data, then all parity bits will still be correct. Furthermore, if four bits change and no error is detected, then the bad bits must form a rectangle: in order for the error to go undetected, each row and column must have no errors or exactly two errors 
+	      	\item[(b)] Suppose the leftmost bit of the message is inverted due tonoise on the transmission link. What is the result of the receiver’s CRC calculation? How does the receiver know thatan error has occurred? \\
+	      	      \textbf{Answer:} Inverting the first bit of the transmission gives $0110 0011 100$; dividing by $1001 (x^3 + 1)$ gives a remainder of $10$; the fact that the remainder is non zero tells us a bit error occurred 
+	      \end{itemize} 
+	\item[23] Consider an ARQ algorithm running over a $40 km$ point-to-pointfiber link.
+	      \begin{itemize}
+	      	\item[(a)] Compute the one-way propagation delay for this link, assuming that the speed of light is $2 \times 10^8m/s$ in the fiber. \\
+	      	      \textbf{Answer:} $40 \times 103 m/(2 \times 108 m/s) = 200 \mu s$ 
+	      	\item[(b)] Suggest a suitable timeout value for the ARQ algorithm to use. \\
+	      	      \textbf{Answer:} The roundtrip time would be about $400 \mu s$. A plausible timeout time would be twice this, or $0.8ms$. Smaller values (but larger than $0.4ms$!) might be reasonable, depending on the amount of variation in actual RTTs.
+	      	\item[(c)] Why might it still be possible for the ARQ algorithm to timeout and retransmit a frame, given this timeout value? \\
+	      	      \textbf{Answer:} The propagation-delay calculation does not consider processing delays that may be introduced by the remote node; it may not be able to answer immediately 
+	      \end{itemize}
+	\item[24] Suppose you are designing a sliding window protocol for a $1 Mbps$ point-to-point link to the moon, which has a one-way latency of $1.25 seconds$. Assuming that each frame carries $1 KB$ of data, what is the minimum number of bits you need for the sequence number? \\
+	      \textbf{Answer:} $125KBps \times 2.5s = 312 KB = 624. 10 bits$
+\end{itemize}
+
+\section*{Extra Credit:}
+Let's consider the cost model for flooding to be directly proportional to the total number of times nodes have to process a packet (either send or receive). What is the order of the worst and best case cost of sending a message from any node to any other node (not including reply messages) within this model? What are the topologies that produces these two cases? Assume there are N nodes in the network; the answers should be in terms of O(f(N)). Trivial cases such as node A sends to node B, which is its only neighbor, will not be accepted, because they cannot be generalized!
+
+\end{document}
