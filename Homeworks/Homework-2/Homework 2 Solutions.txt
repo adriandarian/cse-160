@@ -1,0 +1,245 @@
+Homework 2
+==========
+
+Problem 2.43
+============
+
+(a) A can choose kA=0 or 1; B can choose kB=0,1,2,3. A wins outright if (kA, kB) is among (0,1), (0,2), (0,3), (1,2), (1,3); there is a 5/8 chance of this.
+
+(b) Now we have kB among 0...7. If kA=0, there are 7 choices for kB that have A win; if kA=1 then there are 6 choices. All told the probability of A's winning outright is 13/16.
+
+(c) P(winning race 1) = 5/8 > 1/2 and P(winning race 2) = 13/16 > 3/4;  generalizing, we assume the odds of A winning the ith race exceed  (1 - 1/2^(i-1)). We now have that P(A wins every race given that it wins races 1-3) = (1 - 1/8)(1 - 1/16)(1 - 1/32)(1 - 1/64).... = 3/4.
+
+(d) B gives up on it, and starts over with B2.
+
+
+Problem 2.53
+============
+
+This is the case in the hidden node problem, illustrated in Figure 2.30, in which A interferes with C’s communication to B, and C interferes with A’s communication to B.
+
+
+Problem 2.55
+============
+
+802.11 uses the RTS-CTS mechanism to try to address hidden terminals. A node that has data to send begins by sending a short RTS packet indicating that it would like to send data, and the receiver responds with a CTS, which is also likely to be received by nodes that are in reach of the receiver but hidden from the sender. While this doesn't prevent collisions, the fact that RTS and CTS are short packets makes collisions less likely.
+
+
+Problem 3.3
+===========
+
+Node A: 
+Destination Next-hop 
+    B           C 
+    C           C 
+    D           C 
+    E           C 
+    F           C 
+
+Node B: 
+Destination Next-hop
+    A           E
+    C           E
+    D           E
+    E           E
+    F           E
+
+Node C: 
+Destination Next-hop
+    A           A 
+    B           E 
+    D           E 
+    E           E 
+    F           F 
+
+Node D: 
+Destination Next-hop
+    A           E
+    B           E
+    C           E
+    E           E
+    F           E
+
+Node E: 
+Destination Next-hop 
+    A           C 
+    B           B 
+    C           C 
+    D           D 
+    F           C 
+
+Node F: 
+Destination Next-hop
+    A           C
+    B           C
+    C           C
+    D           C
+    E           C
+
+
+Problem 3.13
+============
+
+B2: D
+B5: all
+B6: I
+
+
+Problem 3.15
+============
+
+When A sends to C, all bridges see the packet and learn where A is. However, when C then sends to A, the packet is routed directly to A and B4 does not learn where C is. Similarly, when D sends to C, the packet is routed by B2 towards B3 only, and B1 does not learn where D is.
+
+B1: A-interface: A B2-interface: C (not D)
+B2: B1-interface: A B3-interface: C B4-interface: D
+B3: B2-interface: A,D C-interface: C
+B4: B2-interface: A (not C) D-interface: D
+
+
+Problem 3.17
+============
+
+(a) When X sends to Z the packet is forwarded on all links; all bridges learn where X is. Y's network interface would see this packet.
+
+(b) When Z sends to X, all bridges already know where X is, so each bridge forwards the packet only on the link towards X, that is, B3->B2->B1->X. Since the packet traverses all bridges, all bridges learn where Z is. Y's network interface would not see the packet as B2 would only forward it on the B1 link.
+
+(c) When Y sends to X, B2 would forward the packet to B1, which in turn forwards it to X. Bridges B2 and B1 thus learn where Y is. B3 and Z never see the packet.
+
+(d) When Z sends to Y, B3 does not know where Y is, and so retransmits on all links; W's network interface would thus see the packet. When the packet arrives at B2, though, it is retransmitted only to Y (and not to B1) as B2 does know where Y is from step (c). All bridges already knew where Z was, from step (b).
+
+
+Problem 3.33
+============
+
+IP addresses include the network/subnet, so that interfaces on different networks must have different network portions of the address. Alternatively, addresses include location information and different interfaces are at different locations, topologically. Point-to-point interfaces can be assigned a duplicate address (or no address) because the other endpoint of the link doesn't use the address to reach the interface; it just sends. Such interfaces, however, cannot be addressed by any other host in the network. See also RFC1812, section 2.2.7, page 25, on "unnumbered point-to-point links".
+
+
+Problem 3.36
+============
+
+Consider the first network. An MTU of 1024 means that is the largest IP datagram that can be carried, so a datagram has room for 1024 - 20 = 1004 bytes of IP-level data; because 1004 is not a multiple of 8, each fragment can contain at most 8 x [1004/8] = 1000 bytes. We need to transfer 1024 + 20 = 1044 bytes of data when the TCP header is included. This would be fragmented into fragments of size 1000, and 44.
+
+Over the second network the 44-byte packet would be unfragmented but the 1000-data-byte packet would be fragmented as follows. The 576-byte MTU allows for up to 576 - 20 = 556 bytes of payload, so rounding down to a multiple of 8 again allows for 552 byes in the first fragment with the remaining 448 in the second fragment.
+
+
+Problem 3.46
+============
+
+Note: M == infinite
+
+(a)
+Information     Distance to Reach Node
+Stored at Node  A   B   C   D   E   F
+--------------------------------------
+    A           0   M   3   8   M   M 
+    B           M   0   M   M   2   M 
+    C           3   M   0   M   M   6
+    D           8   M   M   0   2   M 
+    E           M   2   M   2   0   M 
+    F           M   M   6   M   M   0
+    
+
+(b)
+Information     Distance to Reach Node
+Stored at Node  A   B   C   D   E   F
+--------------------------------------
+    A           0   M   3   8   4   9 
+    B           M   0   3   4   2   M 
+    C           3   3   0   3   1   6
+    D           8   4   3   0   2   M 
+    E           4   2   1   2   0   7 
+    F           9   M   6   M   7   0
+    
+
+(c)    
+Information     Distance to Reach Node
+Stored at Node  A   B   C   D   E   F
+--------------------------------------
+    A           0   6   3   6   4   9 
+    B           6   0   3   4   2   9 
+    C           3   3   0   3   1   6
+    D           6   4   3   0   2   9 
+    E           4   2   1   2   0   7 
+    F           9   9   6   9   7   0
+
+
+Problem 3.48
+============
+
+D Confirmed Tentative
+1.  (D,0,-)
+
+2.  (D,0,-) (A,8,A)
+            (E,2,E)
+
+3.  (D,0,-) (A,8,A)
+    (E,2,E) (B,4,E)
+            (C,3,E)
+
+4.  (D,0,-) (A,6,E)
+    (E,2,E) (B,4,E)
+    (C,3,E) (F,9,E)
+
+5.  (D,0,-) (A,6,E)
+    (E,2,E) (F,9,E)
+    (C,3,E)
+    (B,4,E)
+
+6. previous (F,9,E)
+  + (A,6,E)
+
+7. previous 
+  + (F,9,E)
+  
+
+Problem 3.54
+============
+
+(a)
+A:                          B:
+dest   cost   nexthop       dest   cost    nexthop
+B      inf    -             A      inf     -
+C      3      C             C      inf     -
+D      inf    -             D      4       E
+E      inf    -             E      2       E
+F      9      C             F      inf     -
+
+D:                          F:
+dest   cost   nexthop       dest   cost   nexthop
+A      inf    -             A      9      C
+B      4      E             B      inf    -
+C      inf    -             C      6      C
+E      2      E             D      inf    -
+F      inf    -             E      inf    -
+
+(b)
+A:                          D: 
+dest   cost   nexthop       dest   cost   nexthop
+B      12     D             A      8      A
+C      3      C             B      4      E
+D      8      D             C      11     A
+E      10     D             E      2      E
+F      9      C             F      17     A
+
+(c)
+C: 
+dest   cost   nexthop
+A      3      A
+B      15     A
+D      11     A
+E      13     A
+F      6      F
+
+
+Problem "Playing with ping"
+===========================
+
+a) small fraction of speed of light, most of the delays are related to packet processing, NOT speed of light on the wire.
+
+b) delay larger than pure direct speed of light.  This is due to processing delays in the packets.  Location is not necessarily at Berkley, CA (AWS in the cloud).
+
+c) delay larger than pure direct speed of light, but proportionally smaller than the 2 cases above.  This is because distance starts to become a factor in the delay.
+
+d) delay still much larger than pure direct speed of light.  This is due to mostly to the absence of direct path betweeen NorCal and Argentina, together with the hop-by-hop processing delays.
+
+e) delay larger than pure direct speed of light, but proportionally smaller than the previous case (d).  This is because of forwarding and processing delays, BUT there are more direct connections with Trans Pacific fiber optics connections to Asia/Oceania.
