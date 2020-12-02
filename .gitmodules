@@ -10,3 +10,6 @@
 [submodule "Projects/Project-3"]
 	path = Projects/Project-3
 	url = https://github.com/adriandarian/cse-160-project.git
+[submodule "Projects/Project-4"]
+	path = Projects/Project-4
+	url = https://github.com/adriandarian/cse-160-project.git
